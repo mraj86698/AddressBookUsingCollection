@@ -106,6 +106,21 @@ public class AddressBook {
 				list.stream().filter(obj -> ((obj.getState().equals(cityOrState))&&(obj.getFirstName().equals(searchPerson)))).forEach(System.out::println);
 		}
 	}
+	/**
+	 * Ability to View Person by City or State
+	 * @param cityOrState
+	 * @param searchChoice
+	 */
+
+	private void viewPersonsByCityState(String cityOrState, int searchChoice) {
+		for (Map.Entry<String, List<Contact>> entry : addressBookMap.entrySet()) {
+			List<Contact> list = entry.getValue();
+			if (searchChoice == 1)
+				list.stream().filter(obj -> obj.getCity().equals(cityOrState)).forEach(System.out::println);
+			else if(searchChoice == 2)
+				list.stream().filter(obj -> obj.getState().equals(cityOrState)).forEach(System.out::println);
+		}
+	}
 
 
 	public static void main(String[] args) {
@@ -116,7 +131,7 @@ public class AddressBook {
 		 * If no address book is present, it asks to add at least one address book
 		 * Then Enter the Name of Address Book to add
 		 */
-		while (choice != 7) {
+		while (choice != 8) {
 			if (addressObj.addressBookMap.isEmpty()) {
 				System.out.println("Please add an address book :");
 				System.out.println("Enter the name of address book  to add:");
@@ -205,6 +220,14 @@ public class AddressBook {
 				addressObj.searchPersonAcrossCityState(searchPerson,searchChoice, cityOrState);
 			}
 			case 7: {
+				System.out.println("Enter the name of city or state");
+				String cityOrState = sc.nextLine();
+				System.out.println("Enter 1 if you entered name of a city \nEnter 2 if you entered name of a state");
+				int searchChoice = Integer.parseInt(sc.nextLine());
+				addressObj.viewPersonsByCityState(cityOrState,searchChoice);
+				break;
+			}
+			case 8: {
 				System.out.println("Thank you for using the application");
 			}
 			}
