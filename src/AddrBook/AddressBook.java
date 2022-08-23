@@ -3,6 +3,7 @@ package AddrBook;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBook {
@@ -89,6 +90,23 @@ public class AddressBook {
 		System.out.println("Address Book added");
 	}
 
+	/**
+	 * Search person in a city or state across multiple address book
+	 * @param searchPerson
+	 * @param searchChoice
+	 * @param cityOrState
+	 */
+
+	private void searchPersonAcrossCityState(String searchPerson,int searchChoice, String cityOrState) {
+		for (Map.Entry<String, List<Contact>> entry : addressBookMap.entrySet()) {
+			List<Contact> list = entry.getValue();
+			if (searchChoice == 1)
+				list.stream().filter(obj -> ((obj.getCity().equals(cityOrState))&&(obj.getFirstName().equals(searchPerson)))).forEach(System.out::println);
+			else if(searchChoice == 2)
+				list.stream().filter(obj -> ((obj.getState().equals(cityOrState))&&(obj.getFirstName().equals(searchPerson)))).forEach(System.out::println);
+		}
+	}
+
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -98,7 +116,7 @@ public class AddressBook {
 		 * If no address book is present, it asks to add at least one address book
 		 * Then Enter the Name of Address Book to add
 		 */
-		while (choice != 6) {
+		while (choice != 7) {
 			if (addressObj.addressBookMap.isEmpty()) {
 				System.out.println("Please add an address book :");
 				System.out.println("Enter the name of address book  to add:");
@@ -178,6 +196,15 @@ public class AddressBook {
 				break;
 			}
 			case 6: {
+				System.out.println("Enter first name of person to search");
+				String searchPerson = sc.nextLine();
+				System.out.println("Enter the name of city or state");
+				String cityOrState = sc.nextLine();
+				System.out.println("Enter 1 if you entered name of a city \nEnter 2 if you entered name of a state");
+				int searchChoice = Integer.parseInt(sc.nextLine());
+				addressObj.searchPersonAcrossCityState(searchPerson,searchChoice, cityOrState);
+			}
+			case 7: {
 				System.out.println("Thank you for using the application");
 			}
 			}
